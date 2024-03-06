@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.Xml.Serialization;
@@ -32,6 +33,30 @@ namespace app
             originator.SetMemento(_memento);
         }
 
+    }
+
+    public class FileAnalyzer
+    {
+        private string _folder;        
+
+        public static void PrintIndexFiles(string directoryPath, List<string> keywords)
+        {            
+            var files = Directory.GetFiles(directoryPath, "*.txt", SearchOption.AllDirectories);
+
+            foreach (var file in files)
+            {
+                Console.WriteLine($"Индексация файла: {file}");
+                var content = File.ReadAllText(file);
+
+                foreach (var keyword in keywords)
+                {
+                    if (content.Contains(keyword))
+                    {
+                        Console.WriteLine($"Ключевое слово '{keyword}' найдено в файле: {file}");
+                    }
+                }
+            }            
+        }
     }
 
     [Serializable]

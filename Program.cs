@@ -70,7 +70,7 @@ namespace app
                     Console.WriteLine("(Если нужно сохранить файл в папке с программой, нажмите Enter для продолжения)");
                 }
                 string path = Console.ReadLine();
-                if(!isNecessary && path == "")
+                if (!isNecessary && path == "")
                 {
                     return path;
                 }
@@ -83,13 +83,15 @@ namespace app
                     Console.WriteLine("\aТакого пути не существует!");
                     continue;
                 }
-
-                string extension = path.Substring(path.IndexOf("."));
-                if (extension != rightExtension)
+                if (!String.IsNullOrEmpty(rightExtension))
                 {
-                    Console.WriteLine("\aНеправильно расширение файла!");
-                    continue;
-                }
+                    string extension = path.Substring(path.IndexOf("."));
+                    if (extension != rightExtension)
+                    {
+                        Console.WriteLine("\aНеправильно расширение файла!");
+                        continue;
+                    }
+                }                
 
                 return path;
             }
@@ -202,7 +204,22 @@ namespace app
 
         private static void WorkWithDirectoryIndexation()
         {
-            throw new NotImplementedException();
+            string directoryPath = GetRightPath();
+            List<string> keywords = new List<string>();
+
+            Console.WriteLine("Введите ключевые слоа для поиска:\n(Для остановки ввода нажмите Enter)");
+            string inputLine = Console.ReadLine();
+
+            while (!String.IsNullOrEmpty(inputLine))
+            {
+                if (!String.IsNullOrEmpty(inputLine))
+                {
+                    keywords.Add(inputLine);
+                }
+                inputLine = Console.ReadLine();
+            }
+
+            FileAnalyzer.PrintIndexFiles(directoryPath, keywords);
         }
     }
 }
